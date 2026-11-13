@@ -30,12 +30,12 @@ BOARD_BOOT_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000 androidboot.hardware=qcom androidboot.console=ttyMSM0 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/1d84000.ufshc
-BOARD_KERNEL_CMDLINE += androidboot.init_fatal_reboot_target=recovery
+BOARD_KERNEL_CMDLINE += cgroup_disable=pressure
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_CONFIG := vendor/xiaomi/mi845_defconfig
+TARGET_KERNEL_CONFIG := vendor/xiaomi/mi845_defconfig vendor/debugfs.config
 TARGET_KERNEL_SOURCE := kernel/xiaomi/sdm845
 
 # Platform
@@ -79,6 +79,7 @@ BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_USES_METADATA_PARTITION := true
 
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
 
@@ -94,6 +95,9 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext ven
 BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 5163188224 # (BOARD_SUPER_PARTITION_SIZE - 4194304) 4MiB overhead
 
 include vendor/lineage/config/BoardConfigReservedSize.mk
+
+BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 20971520 # 20MiB
+BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 20971520 # 20MiB
 
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true

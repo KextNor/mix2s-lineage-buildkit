@@ -42,7 +42,7 @@ vendor.audio.feature.hifi_audio.enable=false
 vendor.audio.feature.hwdep_cal.enable=false
 vendor.audio.feature.incall_music.enable=false
 vendor.audio.feature.keep_alive.enable=false
-vendor.audio.feature.kpi_optimize.enable=true
+vendor.audio.feature.kpi_optimize.enable=false
 vendor.audio.feature.maxx_audio.enable=false
 vendor.audio.feature.multi_voice_session.enable=true
 vendor.audio.feature.ras.enable=true
@@ -102,7 +102,7 @@ persist.vendor.qcom.bluetooth.twsp_state.enabled=false
 vendor.qcom.bluetooth.soc=cherokee
 
 # Camera
-vendor.camera.aux.packagelist=com.android.camera,org.codeaurora.snapcam,org.lineageos.aperture,org.lineageos.aperture.dev
+vendor.camera.aux.packagelist=com.android.camera,org.codeaurora.snapcam,org.lineageos.aperture,co.aospa.sense
 
 # Chipset
 ro.soc.manufacturer=Qualcomm
@@ -128,8 +128,12 @@ drm.service.enabled=true
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
 # Graphics
-debug.egl.hw=0
-debug.sf.hw=0
+debug.hwui.skia_atrace_enabled=false
+debug.sf.disable_client_composition_cache=1
+debug.sf.enable_gl_backpressure=0
+debug.sf.enable_transaction_tracing=false
+debug.sf.predict_hwc_composition_strategy=0
+debug.sf.recomputecrop=0
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
 ro.opengles.version=196610
@@ -167,20 +171,24 @@ persist.vendor.data.iwlan.enable=true
 
 # Perf
 ro.vendor.extension_library=libqti-perfd-client.so
+vendor.perf.framepacing.enable=1
+
+# Phantom process monitoring
+sys.fflag.override.settings_enable_monitor_phantom_procs=false
 
 # Radio
 persist.vendor.radio.enableadvancedscan=false
+persist.vendor.radio.mt_sms_ack=30
 
 # USB
-sys.usb.mtp.batchcancel=1
 vendor.usb.diag.func.name=diag
 vendor.usb.dpl.inst.name=dpl
 vendor.usb.qdss.inst.name=qdss
 vendor.usb.rmnet.func.name=gsi
 vendor.usb.rmnet.inst.name=rmnet
 vendor.usb.rndis.func.name=gsi
-vendor.usb.use_ffs_mtp=1
-vendor.usb.use_gadget_hal=1
+vendor.usb.use_ffs_mtp=0
+vendor.usb.use_gadget_hal=0
 
 # Zygote
 zygote.critical_window.minute=10

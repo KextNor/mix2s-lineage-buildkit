@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Xiaomi Mi MIX 2S (polaris) — LineageOS 23.2 (Android 16) local manifest
-  All revisions are pinned by commit SHA so a re-sync cannot silently change them.
 
-  IMPORTANT / 重要:
-  - polaris 的 lineage-23.2 设备树分支与 lineage-22.2 是同一个提交，
-    并没有真正为 Android 16 重做过设备树。
-  - kernel 和 vendor 仓库目前都没有 lineage-23.2 分支，因此这里固定到
-    最后一个可用的 lineage-22.2 提交（Android 15 的 vendor blobs）。
-  - 这正是本套件属于「实验性」的原因：能编译不等于能开机，必须实机验证。
+  为什么不用 LineageOS 官方 polaris 设备树？
+  - LineageOS/android_device_xiaomi_polaris 的 lineage-23.2 分支和 lineage-22.2
+    是同一个提交，没有为 Android 16 做过适配；
+  - 官方 kernel / vendor 也没有 lineage-23.2 分支。
+
+  所以这里改用 Evolution-X 社区仓库的 bka（Android 16 / Baklava）分支：
+  它包含 polaris + sdm845-common 设备树、内核、vendor blobs、hardware/xiaomi，
+  是当前仍在维护的 A16 组合。全部按 commit SHA 固定，不受上游后续改动影响。
+
+  bka 分支提交时间（2026-11 核对）：
+    device/polaris        2025-08-19
+    device/sdm845-common  2025-12-10
+    kernel                2026-11-11   ← 最新
+    vendor blobs          2025-04-13
+    hardware/xiaomi       2026-11-01
+
+  注意：这套组合可以用 LineageOS 23.2 源码编译（设备树继承 vendor/lineage），
+  但它仍是移植，编译成功 ≠ 日用稳定，必须实机验证。
 -->
 <manifest>
-  <!-- Device trees -->
-  <project name="LineageOS/android_device_xiaomi_polaris"
+  <project name="Evolution-X-Devices/device_xiaomi_polaris"
            path="device/xiaomi/polaris"
            remote="github"
-           revision="1b46255cfa29026819b9177f1c7f73ee72388e76" />
+           revision="9482c6a9ad73513bc1b3550f1c5d0a86084401f4" />
 
-  <project name="LineageOS/android_device_xiaomi_sdm845-common"
+  <project name="Evolution-X-Devices/device_xiaomi_sdm845-common"
            path="device/xiaomi/sdm845-common"
            remote="github"
-           revision="35cf356b095e033e71261b16c7fa319faac12cb3" />
+           revision="7d482dfe603920d133409ce35325ceaf8ea97fa5" />
 
-  <!-- Kernel: no lineage-23.2 branch exists, pin last lineage-22.2 commit -->
-  <project name="LineageOS/android_kernel_xiaomi_sdm845"
+  <project name="Evolution-X-Devices/kernel_xiaomi_sdm845"
            path="kernel/xiaomi/sdm845"
            remote="github"
-           revision="aa8adfe9bf212c6e93238a86980b4024da4f819a" />
+           revision="20537062a7375491151c9f277740708c4dc25076" />
 
-  <!-- Vendor blobs: no lineage-23.2 branch exists, pin lineage-22.2 commits -->
-  <project name="TheMuppets/proprietary_vendor_xiaomi_polaris"
+  <project name="Evolution-X-Devices/vendor_xiaomi_polaris"
            path="vendor/xiaomi/polaris"
            remote="github"
-           revision="9e9707959acceea4b990cba733d259aab64c183e" />
+           revision="6109f48271a6a2b7b5bac6b9a853fc31be26a228" />
 
-  <project name="TheMuppets/proprietary_vendor_xiaomi_sdm845-common"
+  <project name="Evolution-X-Devices/vendor_xiaomi_sdm845-common"
            path="vendor/xiaomi/sdm845-common"
            remote="github"
-           revision="b971b2ccd4cf66dede975cf645d01f4cbc203150" />
+           revision="ccf4219fdcac68d1419b28a29ea73434c04a5463" />
 
-  <!-- Shared Xiaomi hardware HALs (has a real lineage-23.2 branch) -->
-  <project name="LineageOS/android_hardware_xiaomi"
+  <project name="Evolution-X-Devices/hardware_xiaomi"
            path="hardware/xiaomi"
            remote="github"
-           revision="f71c6821019c542aa58c672bf4920cb2e58c34f3" />
+           revision="7c4bfbe91dc201bc71302353001d0223f3ef0a79" />
 </manifest>

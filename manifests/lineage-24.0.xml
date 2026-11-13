@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Xiaomi Mi MIX 2S (polaris) — LineageOS 24.0 (Android 17) local manifest
+
+  这是最激进的一组：LineageOS 24.0 = Android 17（android-17.0.0_r1）。
+  polaris 没有任何官方 24.0 设备树，这里使用 Evolution-X 的 cnb
+  （Cinnamon Bun / Android 17）分支组合：
+
+    device/polaris        cnb  2025-08-19（与 bka 同一提交）
+    device/sdm845-common  cnb  2025-12-10
+    kernel                cnb  2026-02-17
+    vendor blobs          cnb  2025-04-13
+    hardware/xiaomi       cnb  2026-11-12（最近仍在更新）
+
+  风险提示（务必看清）：
+  - polaris 专用的 device 树内容仍是 A16 时期的，A17 的平台适配主要在
+    sdm845-common / hardware 层，属于「社区在推进、但未验证 polaris」的状态；
+  - 很可能需要手工修编译错误，也可能编译成功但无法开机；
+  - 要日用请先用 lineage-23.2.xml（A16）验证，再尝试这一组。
+-->
+<manifest>
+  <project name="Evolution-X-Devices/device_xiaomi_polaris"
+           path="device/xiaomi/polaris"
+           remote="github"
+           revision="9482c6a9ad73513bc1b3550f1c5d0a86084401f4" />
+
+  <project name="Evolution-X-Devices/device_xiaomi_sdm845-common"
+           path="device/xiaomi/sdm845-common"
+           remote="github"
+           revision="7d482dfe603920d133409ce35325ceaf8ea97fa5" />
+
+  <project name="Evolution-X-Devices/kernel_xiaomi_sdm845"
+           path="kernel/xiaomi/sdm845"
+           remote="github"
+           revision="b0fb2a6d2d20c1f3219183e8590fff50a3a39fd6" />
+
+  <project name="Evolution-X-Devices/vendor_xiaomi_polaris"
+           path="vendor/xiaomi/polaris"
+           remote="github"
+           revision="6109f48271a6a2b7b5bac6b9a853fc31be26a228" />
+
+  <project name="Evolution-X-Devices/vendor_xiaomi_sdm845-common"
+           path="vendor/xiaomi/sdm845-common"
+           remote="github"
+           revision="ccf4219fdcac68d1419b28a29ea73434c04a5463" />
+
+  <project name="Evolution-X-Devices/hardware_xiaomi"
+           path="hardware/xiaomi"
+           remote="github"
+           revision="b467b05589a1882b11ccd6621770939df43aed10" />
+</manifest>

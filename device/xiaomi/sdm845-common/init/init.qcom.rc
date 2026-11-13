@@ -472,6 +472,11 @@ on property:sys.boot_completed=1
     write /sys/block/sdf/queue/nr_requests 128
     write /sys/block/sdf/queue/iostats 1
 
+    # ZRAM setup
+    write /sys/block/zram0/comp_algorithm lz4
+    write /proc/sys/vm/page-cluster 0
+    swapon_all /vendor/etc/fstab.zram
+    
     start qcom-post-boot
 
 # corefile limit
@@ -609,10 +614,6 @@ service chre /vendor/bin/chre
     socket chre seqpacket 0660 root system
     shutdown critical
 
-# Set gpu available frequencies property
-on property:vendor.gpu.available_frequencies=*
-    setprop ro.vendor.gpu.available_frequencies ${vendor.gpu.available_frequencies}
-
 service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
     override
     class hal
@@ -702,3 +703,7 @@ on property:init.svc.vendor.hwcomposer-2-3=running
 
 on property:init.svc.vendor.hwcomposer-2-3=restarting
     stop ppd
+
+on property:init.svc.statsd=running
+    # Stop trying to kill my device after 3 days ugh
+    stop statsd

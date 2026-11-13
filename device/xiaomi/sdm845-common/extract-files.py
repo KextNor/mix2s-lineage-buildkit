@@ -44,7 +44,6 @@ lib_fixups: lib_fixups_user_type = {
         'com.qualcomm.qti.uceservice@2.0',
         'com.qualcomm.qti.uceservice@2.1',
         'libmmosal',
-        'vendor.qti.hardware.fm@1.0',
         'vendor.qti.hardware.radio.ims@1.0',
         'vendor.qti.hardware.radio.ims@1.1',
         'vendor.qti.hardware.radio.ims@1.2',
@@ -78,6 +77,8 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libutils-v33.so'),
     ('vendor/lib64/libwvhidl.so', 'vendor/lib64/mediadrm/libwvdrmengine.so'): blob_fixup()
         .add_needed('libcrypto_shim.so'),
+    ('vendor/lib64/libdlbdsservice.so', 'vendor/lib/libstagefright_soft_ac4dec.so', 'vendor/lib/libstagefright_soft_ddpdec.so'): blob_fixup()
+        .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),
 }  # fmt: skip
 
 module = ExtractUtilsModule(

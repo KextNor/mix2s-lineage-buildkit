@@ -1,0 +1,14 @@
+cc_library_shared {
+    name: "RemovePackages",
+    overrides: [
+        "arcore",
+        "GoogleTTS",
+        "Photos",
+        "SoundAmplifierPrebuilt",
+        "SwitchAccessPrebuilt",
+        "talkback",
+        "Tycho",
+        "VoiceAccessPrebuilt",
+    ],
+    compile_multilib: "64",
+}

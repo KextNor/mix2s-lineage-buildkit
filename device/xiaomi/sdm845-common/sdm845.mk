@@ -19,7 +19,8 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-lineage
+    $(LOCAL_PATH)/overlay-lineage \
+    $(LOCAL_PATH)/overlay-evolution
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
@@ -85,6 +86,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     $(LOCAL_PATH)/audio/audio_policy_configuration_a2dp_offload_disabled.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration_a2dp_offload_disabled.xml \
     $(LOCAL_PATH)/audio/bluetooth_hearing_aid_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_hearing_aid_audio_policy_configuration.xml \
+    $(LOCAL_PATH)/audio/dax-default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default.xml \
     $(LOCAL_PATH)/audio/graphite_ipc_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/graphite_ipc_platform_info.xml \
     $(LOCAL_PATH)/audio/listen_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/listen_platform_info.xml \
     $(LOCAL_PATH)/audio/mixer_paths_tavil.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_tavil.xml \
@@ -106,6 +108,7 @@ PRODUCT_PACKAGES += \
 
 # Common init scripts
 PRODUCT_PACKAGES += \
+    fstab.zram \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \
     init.qcom.rc \
@@ -131,6 +134,7 @@ PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
 
 # Device-specific settings
 PRODUCT_PACKAGES += \
+    XiaomiDolby \
     XiaomiParts
 
 # Display
@@ -193,7 +197,8 @@ PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libOmxVdec \
     libOmxVenc \
-    libstagefrighthw
+    libstagefrighthw \
+    libstagefright_foundation-v33
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
@@ -202,6 +207,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     $(LOCAL_PATH)/configs/media_profiles_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml \
     $(LOCAL_PATH)/configs/system_properties.xml:$(TARGET_COPY_OUT_VENDOR)/etc/system_properties.xml
+
+PRODUCT_COPY_FILES += \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml
 
 # Native libraries whitelist
 PRODUCT_COPY_FILES += \
@@ -238,6 +248,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librecovery_updater_xiaomi
 
+# Remove unwanted packages
+PRODUCT_PACKAGES += \
+    RemovePackages
+
 # Seccomp policy
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
@@ -257,6 +271,9 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/xiaomi \
     vendor/qcom/opensource/usb/etc
 
+# Speed profile services and wifi-service to reduce RAM and storage
+PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
+
 # Telephony
 PRODUCT_PACKAGES += \
     ims-ext-common \
@@ -270,11 +287,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
+# Tethering
+PRODUCT_PACKAGES += \
+    TetheringConfigOverlay
+
 # USB
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.3-service.dual_role_usb \
-    android.hardware.usb.gadget-service.qti \
-    usb_compositions.conf
+    android.hardware.usb@1.3-service.dual_role_usb
 
 # Vibrator
 PRODUCT_PACKAGES += \
