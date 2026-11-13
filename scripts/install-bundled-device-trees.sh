@@ -21,7 +21,8 @@ command -v rsync >/dev/null 2>&1 || { echo "缺少 rsync" >&2; exit 1; }
 for d in polaris sdm845-common; do
   echo "==> device/xiaomi/$d"
   mkdir -p "$SRC/device/xiaomi/$d"
-  rsync -a --delete "$ROOT/device/xiaomi/$d/" "$SRC/device/xiaomi/$d/"
+  # 排除 .git：repo sync 的项目目录里自带 .git，删掉会让 repo 认为项目损坏
+  rsync -a --delete --exclude=.git "$ROOT/device/xiaomi/$d/" "$SRC/device/xiaomi/$d/"
 done
 
 echo "完成。"

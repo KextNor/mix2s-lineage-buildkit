@@ -27,12 +27,9 @@ fi
 mkdir -p "$SRC"
 cd "$SRC"
 
-if [[ ! -d .repo ]]; then
-  echo "==> repo init ($BRANCH)"
-  repo init -u https://github.com/LineageOS/android.git -b "$BRANCH" --git-lfs --no-clone-bundle
-else
-  echo "==> 已存在 .repo，跳过 repo init"
-fi
+# repo init 是幂等的；每次都执行，方便在同一目录切换 23.2 / 22.2
+echo "==> repo init ($BRANCH)"
+repo init -u https://github.com/LineageOS/android.git -b "$BRANCH" --git-lfs --no-clone-bundle
 
 echo "==> 写入 local manifest: $BRANCH.xml"
 mkdir -p .repo/local_manifests
