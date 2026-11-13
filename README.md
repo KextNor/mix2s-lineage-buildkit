@@ -22,6 +22,8 @@ LineageOS 官方对 polaris 的支持只到 **22.2（Android 15）**。官方仓
 
 ⚠️ **没有任何一组经过实机验证。** 编译成功只代表代码能过编译，不代表能开机、能日用。想日用必须先刷 `lineage-23.2` 产物并实际使用一段时间。
 
+另外，我核对过 **Evolution-X 官方 OTA（`bka`，A16）的 88 台设备列表，里面没有 polaris**；LMODroid 也没有官方 polaris 构建。也就是说：Android 16/17 上，polaris 只有社区树，没有「维护者持续出包」的保证。这是现状，不是本仓库能改变的。
+
 ---
 
 ## 二、仓库结构
@@ -38,6 +40,7 @@ scripts/
   setup-ubuntu.sh           # 依赖、repo、ccache
   init-source.sh            # repo init + local manifest + repo sync
   install-bundled-device-trees.sh  # 用仓库内设备树覆盖同步结果（保留 .git）
+  preflight.sh              # 编译前自检（依赖、磁盘、SHA、关键文件）
   build.sh                  # breakfast + brunch
 ```
 
@@ -109,7 +112,15 @@ bash scripts/init-source.sh ~/android/lineage-22.2 lineage-22.2
 
 同步中断是常态，重复执行同一条命令即可。
 
-### 5. （可选）用仓库内固定设备树
+### 5. 编译前自检（强烈建议）
+
+```bash
+bash scripts/preflight.sh ~/android/lineage-23.2 lineage-23.2
+```
+
+它会检查：主机依赖、磁盘、内存 + swap、源码树完整性、local manifest、**6 个仓库的 HEAD 是否等于 manifest 固定的 SHA**、设备树/内核/vendor 关键文件、ccache。全部 `[ OK ]` 再开始编译；出现 `[FAIL]` 就先修，不要硬编。
+
+### 6. （可选）用仓库内固定设备树
 
 ```bash
 bash scripts/install-bundled-device-trees.sh ~/android/lineage-23.2
@@ -117,7 +128,7 @@ bash scripts/install-bundled-device-trees.sh ~/android/lineage-23.2
 
 上游仓库将来有变动或被删除时，这一步能回到本仓库记录的版本。
 
-### 6. 编译
+### 7. 编译
 
 ```bash
 bash scripts/build.sh ~/android/lineage-23.2
@@ -134,7 +145,7 @@ brunch polaris
 
 8 核首次完整编译约 1–3 小时，ccache 命中后第二次明显更快。
 
-### 7. 产物
+### 8. 产物
 
 ```
 out/target/product/polaris/
