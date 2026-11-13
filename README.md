@@ -178,7 +178,10 @@ out/target/product/polaris/
 
 ```bash
 bash scripts/init-source.sh ~/android/lineage-23.2 lineage-23.2
-bash scripts/build.sh ~/android/lineage-24.0   # 仅示意，路径按实际改
+bash scripts/build.sh ~/android/lineage-23.2
+
+bash scripts/init-source.sh ~/android/lineage-24.0 lineage-24.0
+bash scripts/build.sh ~/android/lineage-24.0
 ```
 
 同一目录重复 `init-source.sh` 可以直接切换分支；建议 23.2 / 24.0 各留一份源码目录，互不干扰。
